@@ -1,6 +1,8 @@
 Search_methods
 =============
-A*, BFS(yet), BEAM(yet) 
+Methods : A*, BFS(yet), BEAM(yet) 
+-----------------------------
+Maps : EightPuzzle
 -----------------------------
 ## <실행 환경>
 #### Language:   JAVA 17
