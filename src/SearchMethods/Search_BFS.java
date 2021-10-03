@@ -60,7 +60,7 @@ public class Search_BFS extends Search{
 			m.printMap();
 		}
 	}
-	void printTraceEight(Stack<Map> closed){ //**** coution *** eight puzzle only!!!
+	void printTraceEight(Stack<Map> closed){ //**** caution *** eight puzzle only!!!
 		int row;
 		int index;
 		ArrayList<Map> shortPath = new ArrayList<>(closed.lastElement().getG()+1);
