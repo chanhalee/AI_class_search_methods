@@ -3,6 +3,7 @@ package SearchMethods;
 import MapTypes.Map;
 import MapTypes.Map_EightPuzzle;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Stack;
 
@@ -46,7 +47,10 @@ public class Search_ASTAR extends Search{
 			if(candidate.getDiff() == 0)
 				break;
 		}
-		printTrace(closed);
+		if(candidate instanceof Map_EightPuzzle)
+			printTraceEight(closed);
+		else
+			printTraceEight(closed);
 		return "expand: " + (closed.size() - 1) + ", expense: " + ((candidate == null)? "" :candidate.getG()) //closed 엔 최초의 상태가 더해져 비용은 closed 사이즈 -1
 				+", open stack size: " + open.size();
 	}
@@ -54,6 +58,36 @@ public class Search_ASTAR extends Search{
 	void printTrace(Stack<Map> closed){
 		for(Map m : closed){
 			m.printMap();
+		}
+	}
+	void printTraceEight(Stack<Map> closed){ //**** coution *** eight puzzle only!!!
+		int row;
+		int index;
+		ArrayList<Map> shortPath = new ArrayList<>(closed.lastElement().getG()+1);
+
+		row = -2;
+		System.out.println("\nclosed trace");
+		while (++row < 3) {
+			index = -1;
+			while (++index < closed.size()) {
+				closed.elementAt(index).printRow(row);
+			}
+			System.out.println();
+		}
+		index = -1;
+		shortPath.addAll(closed);
+		while( ++index < closed.size())
+			shortPath.set(closed.elementAt(index).getG(), closed.elementAt(index));
+		while( --index > closed.lastElement().getG())
+			shortPath.remove(index);
+		row = -2;
+		System.out.println("Path that I found");
+		while (++row < 3) {
+			index = -1;
+			while (++index < shortPath.size()) {
+				shortPath.get(index).printRow(row);
+			}
+			System.out.println();
 		}
 	}
 }

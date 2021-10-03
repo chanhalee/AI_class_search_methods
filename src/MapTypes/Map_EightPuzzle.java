@@ -154,18 +154,18 @@ public class Map_EightPuzzle extends Map {
 		}
 	}
 
-	public void printCol(int col_number){
-		if(col_number < -1 || col_number > 2){
-			System.out.println("잘못된 <EightPuzzle.printCol> 명령 (" + col_number + ")");
+	public void printRow(int row_number){
+		if(row_number < -1 || row_number > 2){
+			System.out.println("잘못된 <EightPuzzle.printCol> 명령 (" + row_number + ")");
 			return;
 		}
-		if (col_number == -1){
-			System.out.print("g: " + this.g + "diff: " + this.diff + "  ");
+		if (row_number == -1){
+			System.out.print("g:" + this.g + " | dif:" + this.diff + "  ");
 			return;
 		}
-		for(int i : map[col_number])
+		for(int i : map[row_number])
 			System.out.print("[" + i + "]");
-		if(col_number == 1)
+		if(row_number == 1 && diff != 0)
 			System.out.print(" -> ");
 		else
 			System.out.print("    ");
@@ -173,7 +173,7 @@ public class Map_EightPuzzle extends Map {
 	public void printMap(){
 		int col_number = -1;
 
-		System.out.println("g: " + this.g + ", diff: " + this.diff);
+		System.out.println("g:" + this.g + "| dif:" + this.diff);
 		while(++col_number < 3) {
 			for (int i : map[col_number])
 				System.out.print("[" + i + "]");
