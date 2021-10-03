@@ -66,7 +66,7 @@ public class Search_BFS extends Search{
 		ArrayList<Map> shortPath = new ArrayList<>(closed.lastElement().getG()+1);
 
 		row = -2;
-		System.out.println("\nclosed trace");
+		System.out.println("\n<" + name + ">"+ "\nclosed trace");
 		while (++row < 3) {
 			index = -1;
 			while (++index < closed.size()) {
