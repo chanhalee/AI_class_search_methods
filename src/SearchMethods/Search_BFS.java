@@ -51,7 +51,7 @@ public class Search_BFS extends Search{
 			printTraceEight(closed);
 		else
 			printTraceEight(closed);
-		return "expand: " + (closed.size() - 1) + ", expense: " + ((candidate == null)? "" :candidate.getG()) //closed 엔 최초의 상태가 더해져 비용은 closed 사이즈 -1
+		return "expand: " + (closed.size() - 1) + ", expense: " + ((candidate == null)? "" :candidate.getG()) //closed 엔 최초의 시작 상태가 더해져 확장횟수는 closed.size -1
 				+", open stack size: " + open.size();
 	}
 

@@ -2,6 +2,7 @@ import SearchMethods.*;
 
 public class Test {
 	public static void main(String[] args) {
+		System.out.println("학번: 201811097 이름: 이찬하");
 		Search_BFS bfs = new Search_BFS();
 		Search_Beam beam = new Search_Beam();
 		Search_ASTAR aStar = new Search_ASTAR();

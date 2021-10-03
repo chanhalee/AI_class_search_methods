@@ -160,11 +160,11 @@ public class Map_EightPuzzle extends Map {
 			return;
 		}
 		if (row_number == -1){
-			System.out.print("g:" + this.g + " | dif:" + this.diff + "  ");
+			System.out.print("g:" + this.g + " dif:" + this.diff + "    ");
 			return;
 		}
 		for(int i : map[row_number])
-			System.out.print("[" + i + "]");
+			System.out.print("[" + (i == 0 ? " " : i) + "]");
 		if(row_number == 1 && diff != 0)
 			System.out.print(" -> ");
 		else
@@ -175,8 +175,9 @@ public class Map_EightPuzzle extends Map {
 
 		System.out.println("g:" + this.g + "| dif:" + this.diff);
 		while(++col_number < 3) {
-			for (int i : map[col_number])
-				System.out.print("[" + i + "]");
+			for (int i : map[col_number]) {
+				System.out.print("[" + (i == 0 ? " " : i) + "]");
+			}
 			System.out.println();
 		}
 		System.out.println();
