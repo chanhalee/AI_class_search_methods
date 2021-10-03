@@ -6,16 +6,25 @@ import MapTypes.Map_EightPuzzle;
 import java.util.Comparator;
 import java.util.Stack;
 
-public class Search_ASTAR extends Search{
+public class Search_Beam extends Search{
+	private int buffer_size;
 
-	public Search_ASTAR() {
-		super("A-Star-Search");
+	public Search_Beam() {
+		super("Beam-Search");
 	}
-
-
 
 	@Override
 	public String search(String start, String target, int map_type) {
+		this.buffer_size = 3;
+
+		if (map_type == 1) {
+			return search_EightPuzzle(start, target);
+		}
+		else return "잘못된 맵형식 번호";
+	}
+	@Override
+	public String search(String start, String target, int map_type, int openBufferSize) {
+		this.buffer_size = openBufferSize;
 		if (map_type == 1) {
 			return search_EightPuzzle(start, target);
 		}
@@ -41,7 +50,9 @@ public class Search_ASTAR extends Search{
 				if (m != null)
 					open.push(m);
 			}
-			open.sort(new ASTAR_SortComparator());
+			open.sort(new Beam_SortComparator());
+			while(open.size() > buffer_size)
+				open.remove(0);
 			closed.push(candidate);
 			if(candidate.getDiff() == 0)
 				break;
@@ -58,10 +69,10 @@ public class Search_ASTAR extends Search{
 	}
 }
 
-class ASTAR_SortComparator implements Comparator<Map>{
+class Beam_SortComparator implements Comparator<Map>{
 
 	@Override
 	public int compare(Map o1, Map o2) {
-		return (o2.getDiff() + o2.getG()) - (o1.getDiff() + o1.getG());
+		return o2.getDiff() - o1.getDiff();
 	}
 }

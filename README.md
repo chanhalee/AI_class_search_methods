@@ -1,6 +1,6 @@
 Search_methods
 =============
-Methods : A*, BFS(yet), BEAM(yet) 
+Methods : A*, BFS, BEAM
 -----------------------------
 Maps : EightPuzzle
 -----------------------------

@@ -1,31 +1,46 @@
 package MapTypes;
-
+// --------------
+//
+// 최초 세팅되는 target 과 start 상태는 공백을 구분자로 한 각 행열의 요소에 대한 정보가 담긴 문자열을 input 받음.
+// ex) "1 2 3 4 5 6 7 8 0"
+//	[6][7][8]
+//	[5][4][1]
+//	[2][3][0]	** 0은 공백.
+//
+// * expand 시 이전상태로 돌아가는 것을 방지하기 위해 change-type를 저장하여 자신의 change-type의 맞은편(되돌리는 type)를 실행하지 못하게 함.
+// 	위 처리를 하지 않을 경우 두 상태를 오가는 무한루프에 빠질 수 있음 (BFS처럼 g를 고려하지 않는 탐색에서)
+//
+//---------------
 public class Map_EightPuzzle extends Map {
 	private final int[][] map;
 	private final int g;
 	private final int diff;
+	private final int changeType;
 	private final Map_EightPuzzle target;
 
-	public Map_EightPuzzle(String data, int g, Map_EightPuzzle target){ // 데이터는 ' '을 구분자로 한 int, map에 저장시 1.윗줄부터 2.죄측부터 *공백은 '0'
+	public Map_EightPuzzle(String data, int g, Map_EightPuzzle target){ // 시작상태 생성시에만 작동하는 생성자
 		map = new int[3][3];
 		parseData(data);
 		this.g = g;	// g는 루트노드와의 거리
 		this.target = target;
 		this.diff = setDiff(target);
+		this.changeType = 0;
 	}
 
-	Map_EightPuzzle(int[][] map, int g, Map_EightPuzzle target){ // 데이터는 ' '을 구분자로 한 int, map에 저장시 1.윗줄부터 2.죄측부터 *공백은 '0'
+	Map_EightPuzzle(int[][] map, int g, Map_EightPuzzle target, int changeType){ // expand시에만 작동하는 생성자
 		this.map = map;
 		this.g = g;
 		this.target = target;
 		this.diff = setDiff(target);
+		this.changeType = changeType;
 	}
-	public Map_EightPuzzle(String data, int g){ // 데이터는 ' '을 구분자로 한 int, map에 저장시 1.윗줄부터 2.죄측부터 *공백은 '0'
+	public Map_EightPuzzle(String data, int g){
 		map = new int[3][3];
 		parseData(data);
 		this.g = g;	// g는 루트노드와의 거리
 		this.diff = 0;
 		target = null;
+		this.changeType = 0;
 	}
 
 	public int getDiff(){
@@ -69,21 +84,21 @@ public class Map_EightPuzzle extends Map {
 		EightPuzzle_Tile vacancy_to;
 		Map_EightPuzzle[] result = new Map_EightPuzzle[4];
 
-		if(vacancy_from.getItem1() < 2) {
+		if(vacancy_from.getItem1() < 2 && changeType != -10) { // change-type 0
 			vacancy_to = new EightPuzzle_Tile(vacancy_from.getItem1() + 1, vacancy_from.getItem2());
-			result[++counter] = new Map_EightPuzzle(generateSwitchedMap(vacancy_from, vacancy_to), this.g + 1, target);
+			result[++counter] = new Map_EightPuzzle(generateSwitchedMap(vacancy_from, vacancy_to), this.g + 1, target, 10);
 		}
-		if(vacancy_from.getItem2() < 2) {
+		if(vacancy_from.getItem2() < 2 && changeType != -1) {
 			vacancy_to = new EightPuzzle_Tile(vacancy_from.getItem1(), vacancy_from.getItem2() + 1);
-			result[++counter] = new Map_EightPuzzle(generateSwitchedMap(vacancy_from, vacancy_to), this.g + 1, target);
+			result[++counter] = new Map_EightPuzzle(generateSwitchedMap(vacancy_from, vacancy_to), this.g + 1, target, 1);
 		}
-		if(vacancy_from.getItem1() > 0) {
+		if(vacancy_from.getItem1() > 0 && changeType != 10) {
 			vacancy_to = new EightPuzzle_Tile(vacancy_from.getItem1() -1, vacancy_from.getItem2());
-			result[++counter] = new Map_EightPuzzle(generateSwitchedMap(vacancy_from, vacancy_to), this.g + 1, target);
+			result[++counter] = new Map_EightPuzzle(generateSwitchedMap(vacancy_from, vacancy_to), this.g + 1, target, -10);
 		}
-		if(vacancy_from.getItem2() > 0) {
+		if(vacancy_from.getItem2() > 0 && changeType != 1) {
 			vacancy_to = new EightPuzzle_Tile(vacancy_from.getItem1(), vacancy_from.getItem2() - 1);
-			result[++counter] = new Map_EightPuzzle(generateSwitchedMap(vacancy_from, vacancy_to), this.g + 1, target);
+			result[++counter] = new Map_EightPuzzle(generateSwitchedMap(vacancy_from, vacancy_to), this.g + 1, target, -1);
 		}
 		return result;
 	}

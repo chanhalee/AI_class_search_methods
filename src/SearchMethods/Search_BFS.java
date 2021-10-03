@@ -6,10 +6,10 @@ import MapTypes.Map_EightPuzzle;
 import java.util.Comparator;
 import java.util.Stack;
 
-public class Search_ASTAR extends Search{
+public class Search_BFS extends Search{
 
-	public Search_ASTAR() {
-		super("A-Star-Search");
+	public Search_BFS() {
+		super("Best-First-Search");
 	}
 
 
@@ -41,7 +41,7 @@ public class Search_ASTAR extends Search{
 				if (m != null)
 					open.push(m);
 			}
-			open.sort(new ASTAR_SortComparator());
+			open.sort(new BFS_SortComparator());
 			closed.push(candidate);
 			if(candidate.getDiff() == 0)
 				break;
@@ -58,10 +58,10 @@ public class Search_ASTAR extends Search{
 	}
 }
 
-class ASTAR_SortComparator implements Comparator<Map>{
+class BFS_SortComparator implements Comparator<Map>{
 
 	@Override
 	public int compare(Map o1, Map o2) {
-		return (o2.getDiff() + o2.getG()) - (o1.getDiff() + o1.getG());
+		return o2.getDiff() - o1.getDiff();
 	}
 }

@@ -7,4 +7,6 @@ public abstract class Search {
 	}
 
 	abstract public String search(String start, String target, int map_type);
+
+	public String search(String start, String target, int map_type, int openBufferSize){ return null;};
 }
