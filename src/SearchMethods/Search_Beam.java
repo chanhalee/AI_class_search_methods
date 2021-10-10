@@ -92,7 +92,7 @@ public class Search_Beam extends Search{
 		while( --index > closed.lastElement().getG())
 			shortPath.remove(index);
 		row = -2;
-		System.out.println("Path that I found");
+		System.out.println("Path that I've found");
 		while (++row < 3) {
 			index = -1;
 			while (++index < shortPath.size()) {
