@@ -7,6 +7,6 @@ Maps : EightPuzzle
 
 
 ## <실행 환경>
-#### Language:   \tJAVA 17
-#### OS:         \tMacOS 11.6
+#### Language:   JAVA 17
+#### OS:         MacOS 11.6
 #### IDE:        IntelliJ 2021.2.2
