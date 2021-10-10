@@ -43,26 +43,33 @@ public class Search_Beam extends Search{
 		return search_process(open, closed);
 	}
 	String search_process(Stack<Map> open, Stack<Map> closed){
-		Map candidate = null;
-
+		Stack<Map> openTemp = new Stack<>();
+		Map ultimateAns;
 		while(!open.isEmpty()){
-			candidate = open.pop();
-			for(Map m : candidate.expand()) {
-				if (m != null)
-					open.push(m);
+			for(Map candidate : open) {
+				closed.push(candidate);
+				if(candidate.getDiff() == 0)
+					break;
+				for (Map m : candidate.expand()) {
+					if (m != null)
+						openTemp.push(m);
+				}
 			}
-			open.sort(new Beam_SortComparator());
-			while(open.size() > buffer_size)
-				open.remove(0);
-			closed.push(candidate);
-			if(candidate.getDiff() == 0)
+			if(closed.peek().getDiff() == 0)
 				break;
+			openTemp.sort(new Beam_SortComparator());
+			open.clear();
+			while(open.size() < buffer_size && !openTemp.isEmpty())
+				open.push(openTemp.pop());
+			open.sort(new Beam_SortComparator());
+			openTemp.clear();
 		}
-		if(candidate instanceof Map_EightPuzzle)
+		ultimateAns = closed.peek();
+		if(ultimateAns instanceof Map_EightPuzzle)
 			printTraceEight(closed);
 		else
 			printTraceEight(closed);
-		return "expand: " + (closed.size() - 1) + ", expense: " + ((candidate == null)? "" :candidate.getG()) //closed 엔 최초의 상태가 더해져 비용은 closed 사이즈 -1
+		return "expand: " + (closed.size() - 1) + ", expense: " + ((ultimateAns == null)? "" :ultimateAns.getG()) //closed 엔 최초의 상태가 더해져 비용은 closed 사이즈 -1
 				+", open stack size: " + open.size();
 	}
 
