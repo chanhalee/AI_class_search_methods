@@ -61,31 +61,30 @@ public class Search_BFS extends Search{
 		}
 	}
 	void printTraceEight(Stack<Map> closed){ //**** caution *** eight puzzle only!!!
-		int row;
 		int index;
 		ArrayList<Map> shortPath = new ArrayList<>(closed.lastElement().getG()+1);
 
-		row = -2;
-		System.out.println("\n<" + name + ">"+ "\nclosed trace");
-		while (++row < 3) {
-			index = -1;
-			while (++index < closed.size()) {
-				closed.elementAt(index).printRow(row);
-			}
-			System.out.println();
-		}
+		printEightStack(closed, ("\n<" + name + ">" + "\nclosed trace"));
 		index = -1;
 		shortPath.addAll(closed);
 		while( ++index < closed.size())
 			shortPath.set(closed.elementAt(index).getG(), closed.elementAt(index));
 		while( --index > closed.lastElement().getG())
 			shortPath.remove(index);
+		Stack<Map> ss = new Stack<>();
+		ss.addAll(shortPath);
+		printEightStack(ss, ("Path that I've found"));
+	}
+	void printEightStack(Stack<Map> mapStack, String comment){
+		int row;
+		int index;
+
 		row = -2;
-		System.out.println("Path that I've found");
+		System.out.println(comment);
 		while (++row < 3) {
 			index = -1;
-			while (++index < shortPath.size()) {
-				shortPath.get(index).printRow(row);
+			while (++index < mapStack.size()) {
+				mapStack.elementAt(index).printRow(row);
 			}
 			System.out.println();
 		}
