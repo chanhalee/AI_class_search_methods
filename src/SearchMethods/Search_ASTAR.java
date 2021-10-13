@@ -1,5 +1,6 @@
 package SearchMethods;
 
+import MapTypes.HeuristicSearchMap;
 import MapTypes.Map;
 import MapTypes.Map_EightPuzzle;
 
@@ -23,8 +24,8 @@ public class Search_ASTAR extends Search{
 		else return "잘못된 맵형식 번호";
 	}
 	String search_EightPuzzle(String start_s, String target_s){
-		Stack<Map> open;
-		Stack<Map> closed;
+		Stack<HeuristicSearchMap> open;
+		Stack<HeuristicSearchMap> closed;
 		Map_EightPuzzle target;
 
 		open = new Stack<>();
@@ -33,12 +34,12 @@ public class Search_ASTAR extends Search{
 		open.push(new Map_EightPuzzle(start_s, 0, target));
 		return search_process(open, closed);
 	}
-	String search_process(Stack<Map> open, Stack<Map> closed){
-		Map candidate = null;
+	String search_process(Stack<HeuristicSearchMap> open, Stack<HeuristicSearchMap> closed){
+		HeuristicSearchMap candidate = null;
 
 		while(!open.isEmpty()){
 			candidate = open.pop();
-			for(Map m : candidate.expand()) {
+			for(HeuristicSearchMap m : candidate.expand()) {
 				if (m != null)
 					open.push(m);
 			}
@@ -55,14 +56,14 @@ public class Search_ASTAR extends Search{
 				+", open stack size: " + open.size();
 	}
 
-	void printTrace(Stack<Map> closed){
+	void printTrace(Stack<HeuristicSearchMap> closed){
 		for(Map m : closed){
 			m.printMap();
 		}
 	}
-	void printTraceEight(Stack<Map> closed){ //**** caution *** eight puzzle only!!!
+	void printTraceEight(Stack<HeuristicSearchMap> closed){ //**** caution *** eight puzzle only!!!
 		int index;
-		ArrayList<Map> shortPath = new ArrayList<>(closed.lastElement().getG()+1);
+		ArrayList<HeuristicSearchMap> shortPath = new ArrayList<>(closed.lastElement().getG()+1);
 
 		printEightStack(closed, ("\n<" + name + ">" + "\nclosed trace"));
 		index = -1;
@@ -71,11 +72,11 @@ public class Search_ASTAR extends Search{
 			shortPath.set(closed.elementAt(index).getG(), closed.elementAt(index));
 		while( --index > closed.lastElement().getG())
 			shortPath.remove(index);
-		Stack<Map> ss = new Stack<>();
+		Stack<HeuristicSearchMap> ss = new Stack<>();
 		ss.addAll(shortPath);
 		printEightStack(ss, ("Path that I've found"));
 	}
-	void printEightStack(Stack<Map> mapStack, String comment){
+	void printEightStack(Stack<HeuristicSearchMap> mapStack, String comment){
 		int row;
 		int index;
 
@@ -92,10 +93,10 @@ public class Search_ASTAR extends Search{
 
 }
 
-class ASTAR_SortComparator implements Comparator<Map>{
+class ASTAR_SortComparator implements Comparator<HeuristicSearchMap>{
 
 	@Override
-	public int compare(Map o1, Map o2) {
+	public int compare(HeuristicSearchMap o1, HeuristicSearchMap o2) {
 		return (o2.getDiff() + o2.getG()) - (o1.getDiff() + o1.getG());
 	}
 }

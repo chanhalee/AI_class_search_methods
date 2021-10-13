@@ -1,5 +1,6 @@
 package SearchMethods;
 
+import MapTypes.HeuristicSearchMap;
 import MapTypes.Map;
 import MapTypes.Map_EightPuzzle;
 
@@ -32,8 +33,8 @@ public class Search_Beam extends Search{
 		else return "잘못된 맵형식 번호";
 	}
 	String search_EightPuzzle(String start_s, String target_s){
-		Stack<Map> open;
-		Stack<Map> closed;
+		Stack<HeuristicSearchMap> open;
+		Stack<HeuristicSearchMap> closed;
 		Map_EightPuzzle target;
 
 		open = new Stack<>();
@@ -42,17 +43,17 @@ public class Search_Beam extends Search{
 		open.push(new Map_EightPuzzle(start_s, 0, target));
 		return search_process(open, closed);
 	}
-	String search_process(Stack<Map> open, Stack<Map> closed){
-		Stack<Map> openTemp = new Stack<>();
-		Map ultimateAns;
+	String search_process(Stack<HeuristicSearchMap> open, Stack<HeuristicSearchMap> closed){
+		Stack<HeuristicSearchMap> openTemp = new Stack<>();
+		HeuristicSearchMap ultimateAns;
 		int openCounter = -1;
 		while(!open.isEmpty()){
 //			printEightStack(open, ("\nopen Stack trace: " + ++openCounter));  ///untie to inspect open stack
-			for(Map candidate : open) {
+			for(HeuristicSearchMap candidate : open) {
 				closed.push(candidate);
 				if(candidate.getDiff() == 0)
 					break;
-				for (Map m : candidate.expand()) {
+				for (HeuristicSearchMap m : candidate.expand()) {
 					if (m != null)
 						openTemp.push(m);
 				}
@@ -75,14 +76,14 @@ public class Search_Beam extends Search{
 				+", open stack size: " + open.size();
 	}
 
-	void printTrace(Stack<Map> closed){
-		for(Map m : closed){
+	void printTrace(Stack<HeuristicSearchMap> closed){
+		for(HeuristicSearchMap m : closed){
 			m.printMap();
 		}
 	}
-	void printTraceEight(Stack<Map> closed){ //**** caution *** eight puzzle only!!!
+	void printTraceEight(Stack<HeuristicSearchMap> closed){ //**** caution *** eight puzzle only!!!
 		int index;
-		ArrayList<Map> shortPath = new ArrayList<>(closed.lastElement().getG()+1);
+		ArrayList<HeuristicSearchMap> shortPath = new ArrayList<>(closed.lastElement().getG()+1);
 
 		printEightStack(closed, ("\n<" + name + ">" + "\nclosed trace"));
 		index = -1;
@@ -91,11 +92,11 @@ public class Search_Beam extends Search{
 			shortPath.set(closed.elementAt(index).getG(), closed.elementAt(index));
 		while( --index > closed.lastElement().getG())
 			shortPath.remove(index);
-		Stack<Map> ss = new Stack<>();
+		Stack<HeuristicSearchMap> ss = new Stack<>();
 		ss.addAll(shortPath);
 		printEightStack(ss, ("Path that I've found"));
 	}
-	void printEightStack(Stack<Map> mapStack, String comment){
+	void printEightStack(Stack<HeuristicSearchMap> mapStack, String comment){
 		int row;
 		int index;
 
@@ -111,10 +112,10 @@ public class Search_Beam extends Search{
 	}
 }
 
-class Beam_SortComparator implements Comparator<Map>{
+class Beam_SortComparator implements Comparator<HeuristicSearchMap>{
 
 	@Override
-	public int compare(Map o1, Map o2) {
+	public int compare(HeuristicSearchMap o1, HeuristicSearchMap o2) {
 		return o2.getDiff() - o1.getDiff();
 	}
 }

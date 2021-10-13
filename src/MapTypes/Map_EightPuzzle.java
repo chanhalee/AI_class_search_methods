@@ -11,7 +11,7 @@ package MapTypes;
 // 	위 처리를 하지 않을 경우 두 상태를 오가는 무한루프에 빠질 수 있음 (BFS처럼 g를 고려하지 않는 탐색에서)
 //
 //---------------
-public class Map_EightPuzzle extends Map {
+public class Map_EightPuzzle extends HeuristicSearchMap{
 	private final int[][] map;
 	private final int g;
 	private final int diff;
@@ -47,10 +47,10 @@ public class Map_EightPuzzle extends Map {
 		return diff;
 	}
 
-	public int getDiff(Map compareWith){
+	public int getDiff(HeuristicSearchMap compareWith){
 		return setDiff(compareWith);
 	}
-	private int setDiff(Map target){
+	private int setDiff(HeuristicSearchMap target){
 		Map_EightPuzzle targetE;
 		int i = -1;
 		int j;
