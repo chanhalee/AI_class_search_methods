@@ -2,7 +2,7 @@ package SearchMethods;
 
 public abstract class Search {
 	public String name;
-	Search(String name){
+	public Search(String name){
 		this.name = name;
 	}
 

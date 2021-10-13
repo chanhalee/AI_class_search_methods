@@ -1,9 +1,9 @@
-package MapTypes;
+package Util;
 
 public class SingleEntryContainer<T, S>{
 	private T item1;
 	private S item2;
-	SingleEntryContainer(T item1, S item2){
+	public SingleEntryContainer(T item1, S item2){
 		this.item1 = item1;
 		this.item2 = item2;
 	}
